@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import Accordion from './functionalComponent/Accordion';
+import Pagination from './Pagination';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const URL = 'https://countriesnow.space/api/v0.1/countries/capital';
+  const [data, setData] = useState([]);
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    fetch(URL)
+    .then(res => res.json())
+    .then(data => setData(data.data))
+  }, [])
+  
+  function handlePageBtnClick(page) {
+    setPage(page)
+  }
+  const length = data.length;
+  const count = 10;
+  const start = (page - 1) * count;
+  const end = start + count;
+  
+  const showData = data.slice(start, end)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>React Accordion Demo</h1>
+      {
+        showData.map((item, index) => {
+          return <Accordion key = {index} data = {item} />
+        })
+      }
+      <div className = "pagination">
+      <Pagination length = { length } count = { count } handlePageBtnClick = {handlePageBtnClick} />
+      </div>
     </div>
-  );
+  )
 }
 
 export default App;
