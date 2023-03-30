@@ -13,11 +13,11 @@ export default function Accordion(props) {
     <div className="main">
         <div className="accordion">
         <div className="accordion-item">
-            <div className="accordion-title">
+            <div className="accordion-title" onClick={handleClick}>
             <div className="title">{name}</div>
-            <button className="plus" onClick={handleClick}>{flag ? "-" : "+"}</button>
+            <button className="plus">{flag ? "X" : "|||"}</button>
             </div>
-            <div className={flag ? "activ" : "accordion-content"}>{capital}</div>
+            <div className={flag ? "active" : "accordion-content"}>{capital}</div>
         </div>
         </div>
     </div>

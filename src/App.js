@@ -1,39 +1,39 @@
-import Accordion from './functionalComponent/Accordion';
-import Pagination from './Pagination';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import AppFunctional from './functionalComponent/AppFunctional';
+import AppClass from './classComponent/AppClass';
+
 
 function App() {
-  const URL = 'https://countriesnow.space/api/v0.1/countries/capital';
-  const [data, setData] = useState([]);
-  const [page, setPage] = useState(1);
+  const [firstToggle, setFirstToggle]= useState(false);
+  const [secondToggle, setSecondToggle]= useState(false);
 
-  useEffect(() => {
-    fetch(URL)
-    .then(res => res.json())
-    .then(data => setData(data.data))
-  }, [])
-  
-  function handlePageBtnClick(page) {
-    setPage(page)
+  function handleClick(event) {
+    if(event.target.name === "first") {
+      setFirstToggle(!firstToggle);
+    } else {
+      setSecondToggle(!secondToggle);
+    }
   }
-  const length = data.length;
-  const count = 10;
-  const start = (page - 1) * count;
-  const end = start + count;
-  
-  const showData = data.slice(start, end)
 
-  return (
-    <div>
-      <h1>React Accordion Demo</h1>
-      {
-        showData.map((item, index) => {
-          return <Accordion key = {index} data = {item} />
-        })
-      }
-      <div className = "pagination">
-      <Pagination length = { length } count = { count } handlePageBtnClick = {handlePageBtnClick} />
-      </div>
+    return (
+      <div className="main">
+        <h1>React Accordion</h1>
+        <div className="accordion">
+        <div className={secondToggle ? "accordion-content" : "accordion-item"}>
+            <div className="accordion-title">
+            <div className="title">Functional Component</div>
+            <button className="plus" onClick={handleClick} name = "first">{firstToggle ? "X" : "|||"}</button>
+            </div>
+            <div className={firstToggle ? "active" : "accordion-content"}><AppFunctional /></div>
+        </div>
+        <div className={firstToggle ? "accordion-content" : "accordion-item"}>
+            <div className="accordion-title">
+            <div className="title">Class Component</div>
+            <button className="plus" onClick={handleClick} name = "second">{secondToggle ? "X" : "|||"}</button>
+            </div>
+            <div className={secondToggle ? "active" : "accordion-content"}><AppClass /></div>
+        </div>
+        </div>
     </div>
   )
 }

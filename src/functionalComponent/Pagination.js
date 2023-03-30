@@ -4,7 +4,7 @@ export default function Pagination(props) {
     const pageArray = Array.from({length: pageCount}, (_, index) => index + 1)
    
     return (
-        <div>
+        <div className = "pagination">
             {
                 pageArray.map((item, index) => {
                     return <button key = {index} name = {item} onClick = {(event) => handlePageBtnClick(event.target.name)}>{item}</button>
